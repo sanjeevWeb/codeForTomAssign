@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           Int             @id @default(autoincrement())
+  name         String?
+  subscription Subscriptions[]
+  usageRecord  UsageRecords[]
+}
+
+model Plans {
+  id                 Int             @id @default(autoincrement())
+  name               String?
+  monthlyQuota       Int
+  extraChargePerUnit Decimal         @db.Decimal(10, 2)
+  subcriptions       Subscriptions[]
+}
+
+model Subscriptions {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  planId    Int
+  plan      Plans    @relation(fields: [planId], references: [id])
+  isActive  Boolean
+  startDate DateTime @default(now())
+}
+
+model UsageRecords {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  actions   String
+  usedUnits Int
+  createdAt DateTime @default(now())
+}
