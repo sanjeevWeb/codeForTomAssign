@@ -3,3 +3,4 @@ Assumption - One user can have a single plan only. And, every plan would have so
 the month in which user is querying , this also can be made dynamic like any month.
 The folder structure can be improved (making a src folder in general production grade apps.). A centralized error handling middleware
 can be implemented. Also, auth etc. can be implemented but due to lack of time and no strict requirement, these were ommited for now.
+The project structure follows the quikstart guide of prisma (not that fancy).
